@@ -1,0 +1,36 @@
+name: Bump Node.js Version
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  bump-node-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if on master branch
+        run: |
+          if [ "$GITHUB_REF" == "refs/heads/master" ]; then
+            echo "On master branch, bump Node.js version"
+            
+            # Install nvm if not already installed
+            if ! command -v nvm &> /dev/null; then
+              echo "nvm not found, installing..."
+              curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+              source ~/.nvm/nvm.sh
+            fi
+
+            # Define the Node.js version you want to use (e.g., 14.x)
+            NODE_VERSION="14"
+            
+            # Install and use the specified Node.js version
+            nvm install $NODE_VERSION
+            nvm use $NODE_VERSION
+
+            # Verify the Node.js version
+            node -v
+          else
+            echo "Not on master branch, skipping Node.js version bump"
+          fi
