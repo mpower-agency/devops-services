@@ -1,0 +1,22 @@
+version: '3'
+services:
+  s1:
+    build:
+      context: ./S1
+    ports:
+      - "3001:3001"
+
+  s2:
+    build:
+      context: ./S2
+    ports:
+      - "3002:3002"
+
+  s3:
+    build:
+      context: ./S3
+    ports:
+      - "3003:3003"
+    environment:
+      S1_URL: "http://s1:3001"  # Internal URL of S1
+      S2_URL: "http://s2:3002"  # Internal URL of S2
